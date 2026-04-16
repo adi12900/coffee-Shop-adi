@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Menu Management</h2>
+
+<div class="card">
+  <h3>Add New Item</h3>
+  <form method="POST">
+    <input type="hidden" name="action" value="add">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="e.g. Flat White" required>
+      </div>
+      <div class="form-group">
+        <label>Price ($)</label>
+        <input type="number" name="price" step="0.01" min="0" placeholder="3.50" required>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category">
+          <option value="Hot">Hot</option>
+          <option value="Cold">Cold</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Item</button>
+    </div>
+  </form>
+</div>
+
+<table>
+  <thead>
+    <tr><th>#</th><th>Name</th><th>Category</th><th>Price</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    {% for item in menu %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ item.name }}</td>
+      <td><span class="badge badge-{{ item.category | lower }}">{{ item.category }}</span></td>
+      <td>${{ "%.2f"|format(item.price) }}</td>
+      <td>
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="item_id" value="{{ item.id }}">
+          <button type="submit" class="btn btn-danger btn-sm"
+            onclick="return confirm('Remove {{ item.name }}?')">Remove</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="empty">No menu items yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

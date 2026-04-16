@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coffee Website ☕</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1a0a00; color: #f5e6d3; }
+
+    /* HERO */
+    header {
+      background: linear-gradient(135deg, #3b1a08, #6b3a1f);
+      text-align: center;
+      padding: 5rem 1rem 4rem;
+    }
+    header h1 { font-size: 3.5rem; color: #f5c842; letter-spacing: 2px; }
+    header p  { font-size: 1.2rem; color: #d4a574; margin-top: 0.8rem; }
+    header a  {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      background: #c8860a;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    header a:hover { background: #f5c842; color: #1a0a00; }
+
+    /* MENU */
+    section {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    section h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #f5c842;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #2e1205;
+      border: 1px solid #5a2d0c;
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .card .emoji { font-size: 2.8rem; }
+    .card h3    { font-size: 1.2rem; color: #f5c842; margin: 0.8rem 0 0.4rem; }
+    .card p     { font-size: 0.9rem; color: #c4a882; margin-bottom: 0.8rem; }
+    .card .price { font-size: 1.3rem; font-weight: bold; color: #f5c842; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #3b1a08;
+      color: #7a5c44;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>☕ Adi's Coffee</h1>
+    <p>Freshly brewed, made with love</p>
+    <a href="#menu">View Menu</a>
+  </header>
+
+  <section id="menu">
+    <h2>Our Menu</h2>
+    <div class="grid">
+      {% for item in menu %}
+      <div class="card">
+        <div class="emoji">{{ item.emoji }}</div>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.desc }}</p>
+        <div class="price">{{ item.price }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Adi's Coffee Shop. All rights reserved.
+  </footer>
+
+</body>
+</html>

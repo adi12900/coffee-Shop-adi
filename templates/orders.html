@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Orders</h2>
+
+<div class="card">
+  <h3>Place New Order</h3>
+  <form method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Customer Name</label>
+        <input type="text" name="customer" placeholder="Customer name" required>
+      </div>
+      <div class="form-group">
+        <label>Item</label>
+        <select name="item_id">
+          {% for item in menu %}
+          <option value="{{ item.id }}">{{ item.name }} — ${{ "%.2f"|format(item.price) }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" name="quantity" value="1" min="1" max="10" style="width:80px;">
+      </div>
+      <button type="submit" class="btn btn-primary">Place Order</button>
+    </div>
+  </form>
+</div>
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>Customer</th><th>Item</th><th>Qty</th><th>Total</th><th>Status</th><th>Update</th></tr>
+  </thead>
+  <tbody>
+    {% for order in orders | reverse %}
+    <tr>
+      <td>#{{ order.id }}</td>
+      <td>{{ order.customer }}</td>
+      <td>{{ order.item }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>${{ "%.2f"|format(order.total) }}</td>
+      <td>
+        <span class="badge badge-{{ order.status | lower | replace(' ', '') }}">{{ order.status }}</span>
+      </td>
+      <td>
+        <form method="POST" action="/orders/update/{{ order.id }}" style="display:flex; gap:0.4rem;">
+          <select name="status" style="font-size:0.82rem; padding:0.25rem 0.5rem;">
+            <option value="Pending"    {% if order.status=='Pending'    %}selected{% endif %}>Pending</option>
+            <option value="Preparing"  {% if order.status=='Preparing'  %}selected{% endif %}>Preparing</option>
+            <option value="Ready"      {% if order.status=='Ready'      %}selected{% endif %}>Ready</option>
+            <option value="Delivered"  {% if order.status=='Delivered'  %}selected{% endif %}>Delivered</option>
+          </select>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="empty">No orders yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
